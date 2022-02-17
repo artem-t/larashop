@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title')
-    Добавить категорию
+    Редактировать категорию {{ $category->name }}
 @endsection
 @section('content')
     <h1>
-        Добавить категорию
+        Редактировать категорию {{ $category->name }}
     </h1>
     <form method="post" action="{{ route('categories.update', ['category' => $category->id]) }}" enctype="multipart/form-data">
         @csrf

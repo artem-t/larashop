@@ -29,6 +29,11 @@
             <tr>
                 <td>{{ $idx + 1 }}</td>
                 <td>{{$role->name}}</td>
+                <td> <form method="post" action="{{ route('rmRole', ['id' => $role->id])  }}">
+                        @csrf
+                        <input type="text" hidden name="name" value="{{ $role->name }}">
+                        <button class="btn btn-link align-text-top" type="submit">Удалить</button>
+                    </form></td>
             </tr>
             @empty
             <tr>
@@ -77,7 +82,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="tab-content">
             @foreach ($users as $user)
                 <tr>
                     <td>{{ $user->id }}</td>
@@ -86,12 +91,23 @@
                     <td>
                         <ul>
                             @foreach ($user->roles as $role)
-                                <li>{{$role->name}}</li>
+                                <li class="d-flex justify-content-between align-content-center m-0">
+                                    <div class="m-auto">{{$role->name}}</div>
+                                    <div>
+                                         <form method="post" action="{{ route('rmRoleToUser')  }}">
+                                        @csrf
+                                        <input type="text" hidden name="user_id" value="{{ $user->id }}">
+                                        <input type="text" hidden name="role_id" value="{{ $role->id }}">
+                                        <button class="btn btn-link align-text-top" type="submit">Удалить</button>
+                                    </form>
+                                    </div>
+
+                                </li>
                             @endforeach
                         </ul>
                     </td>
                     <td class="text-center">
-                        <a href="{{ route('enterAsUser', $user->id) }}">Войти</a>
+                        <a class="btn btn-primary" href="{{ route('enterAsUser', $user->id) }}">Войти</a>
                     </td>
                 </tr>
             @endforeach

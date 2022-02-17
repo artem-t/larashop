@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Faker\Guesser\Name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,6 +49,14 @@ class AdminController extends Controller
         return back();
     }
 
+    public function rmRole($id)
+    {
+       $role = Role::find($id);
+       $role->delete();
+
+        return back();
+    }
+
     public function addRoleToUser ()
     {
         request()->validate([
@@ -59,4 +68,19 @@ class AdminController extends Controller
         $user->roles()->attach(Role::find(request('role_id')));
         return back();
     }
+
+    public function rmRoleToUser()
+    {
+        request()->validate([
+            'user_id' => 'required',
+            'role_id' => 'required',
+        ]);
+
+        $user = User::find(request('user_id'));
+        $user->roles()->detach(Role::find(request('role_id')));
+        return back();
+
+    }
 }
+
+

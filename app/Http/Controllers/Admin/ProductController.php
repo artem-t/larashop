@@ -16,8 +16,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('name', 'asc')->paginate();
-        return view('admin.products.index', compact('products'));
+        $categories = Category::all();
+        $products = Product::with('category')->orderBy('name', 'asc')->paginate();
+        return view('admin.products.index', compact('products', 'categories'));
     }
 
     /**
@@ -55,6 +56,8 @@ class ProductController extends Controller
 
 
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

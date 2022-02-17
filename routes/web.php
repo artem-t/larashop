@@ -30,7 +30,9 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/enterAsUser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
     Route::prefix('roles')->group(function() {
         Route::post('/add', [AdminController::class, 'addRole'])->name('addRole');
+        Route::post('/rmRole/{id}', [AdminController::class, 'rmRole'])->name('rmRole');
         Route::post('/addRoleToUser', [AdminController::class, 'addRoleToUser'])->name('addRoleToUser');
+        Route::post('/rmRoleToUser', [AdminController::class, 'rmRoleToUser'])->name('rmRoleToUser');
     });
 });
 

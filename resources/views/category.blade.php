@@ -21,11 +21,12 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="d-flex">
         @foreach ($products as $product)
-        <div class="col-6">
+        <div class="col-3">
             <div class="card mb-4" style="width: 18rem;">
-                <img src="{{ asset('storage') }}/{{$product->picture}}" class="card-img-top" alt="{{$product->name}}">
+                <div class="p-3"><img style="height: 10rem" src="{{ asset('storage') }}/{{$product->picture}}" class="card-img-top"
+                        alt="{{$product->name}}"></div>
                 <div class="card-body">
                     <h5 class="card-title">
                         {{$product->name}}
@@ -54,5 +55,6 @@
         </div>
         @endforeach
     </div>
+    {{ $products->links('vendor.pagination.bootstrap-4') }}
 </div>
 @endsection

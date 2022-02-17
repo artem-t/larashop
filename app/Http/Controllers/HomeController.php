@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,13 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::get();
+        $categories = Category::paginate(4);
         return view('home', compact('categories'));
     }
 
     public function category (Category $category)
     {
-        $products = $category->products;
+        $products = Product::with('category')->where('category_id', $category->id)->paginate(4);
         return view('category', compact('products'));
     }
 }
