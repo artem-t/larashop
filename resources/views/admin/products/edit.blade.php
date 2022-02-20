@@ -9,20 +9,30 @@
     <form method="post" action="{{ route('products.update', ['product' => $product->id]) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <div class="col-2">
-            <select name="category_id" id="">
+        <div class="flex-column w-50">
+            <div class="form-group">
+            <select class="form-control" name="category_id" id="">
                 @foreach($categories as $key => $value)
                     <option value="{{ $key }}"  @if($key === $product->category_id) selected @endif>{{ $value }}</option>
                 @endforeach
             </select>
+            </div>
+            <div class="form-group my-3">
             <label for="name">Имя продукта</label>
-            <div><input type="text" name="name" value="{{ $product->name }}"></div>
+            <input class="form-control" type="text" name="name" value="{{ $product->name }}">
+            </div>
+            <div class="form-group my-3">
             <label for="description">Описание продукта</label>
-            <div><input type="text" name="description" value="{{ $product->description }}"></div>
+            <input class="form-control" type="text" name="description" value="{{ $product->description }}">
+            </div>
+            <div class="form-group my-3">
             <label for="price">Цена</label>
-            <div><input type="text" name="price" value="{{ $product->price }}"></div>
+            <input class="form-control" type="text" name="price" value="{{ $product->price }}">
+            </div>
+            <div class="form-group my-3">
             <label for="picture">Изображение продукта</label>
-            <div><input type="file" name="picture" placeholder="Изображение продукта"></div>
+           <input class="form-control" type="file" name="picture" placeholder="Изображение продукта">
+            </div>
             <div><img style="height: 150px" src="{{asset('storage')}}/{{ $product->picture }}" alt=""></div>
 
         </div>

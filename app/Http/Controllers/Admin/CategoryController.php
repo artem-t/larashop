@@ -110,8 +110,11 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
+        if ($category->products->count()){
+             return back()->with('error', 'У категории есть продукты');
+        }
         Storage::delete($category->picture);
         $category->delete();
-        return back();
+        return back()->with('success', 'Категория удалена');
     }
 }

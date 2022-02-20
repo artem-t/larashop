@@ -52,9 +52,12 @@ class AdminController extends Controller
     public function rmRole($id)
     {
        $role = Role::find($id);
-       $role->delete();
+       if ($role->users->count()){
+           return back()->with('error', 'У роли есть пользователь');
+       }
+        $role->delete();
 
-        return back();
+        return back()->with('success', 'Роль удалена');
     }
 
     public function addRoleToUser ()
@@ -66,7 +69,7 @@ class AdminController extends Controller
 
         $user = User::find(request('user_id'));
         $user->roles()->attach(Role::find(request('role_id')));
-        return back();
+        return back()->with('success', 'Роль добавлена');
     }
 
     public function rmRoleToUser()
@@ -78,7 +81,7 @@ class AdminController extends Controller
 
         $user = User::find(request('user_id'));
         $user->roles()->detach(Role::find(request('role_id')));
-        return back();
+        return back()->with('success', 'Роль удалена');
 
     }
 }

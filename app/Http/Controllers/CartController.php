@@ -106,7 +106,7 @@ class CartController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
-//            'register_confirmation' => 'accepted'
+            'register_confirmation' => 'accepted'
         ]);
 
         DB::transaction(function () {

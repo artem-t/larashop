@@ -34,70 +34,86 @@
             Профиль успешно сохранен!
         </div>
     @endif
-
+<h1>
+    Страница пользователя {{ $user->name }}
+</h1>
     <form method="post" action="{{ route('saveProfile') }}" enctype="multipart/form-data">
         @csrf
+        <div class="flex-column">
         <input type="hidden" value="{{ $user->id }}" name='userId'>
-        <div class="mb-3">
-            <label class="form-label">Изображение</label>
+        <div class="form-group my-3">
+{{--            <label class="form-label">Изображение</label>--}}
             <image class="user-picture mb-2" src="{{asset('storage')}}/{{$user->picture}}"></image>
+        </div>
+        <div class="form-group my-3">
+            <lable for="picture">Фото</lable>
             <input type="file" name="picture" class="form-control">
         </div>
-        <div class="mb-3">
+        <div class="form-group mb-3">
             <label for="exampleInputEmail1" class="form-label">Почта</label>
-            <input type="email" name="email" value="{{ $user->email }}" class="form-control" id="exampleInputEmail1"
+            <input readonly type="email" name="email" value="{{ $user->email }}" class="form-control" id="exampleInputEmail1"
                    aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <div id="emailHelp" class="form-text">{{ __('We\'ll never share your email with anyone else.') }}</div>
         </div>
-        <div class="mb-3">
+        <div class="form-group mb-3">
             <label class="form-label">Имя</label>
             <input name="name" value="{{ $user->name }}" class="form-control">
         </div>
-        <div class="mb-3">
+        <div class="form-group mb-3">
             <label class="form-label">Текущий пароль</label>
             <input type="password" autocomplete="off" name="current_password" class="form-control">
         </div>
-        <div class="mb-3">
+        <div class="form-group mb-3">
             <label class="form-label">Новый пароль</label>
             <input type="password" name="password" class="form-control">
         </div>
-        <div class="mb-3">
+        <div class="form-group mb-3">
             <label class="form-label">Повторите новый пароль</label>
             <input type="password" name="password_confirmation" class="form-control">
         </div>
-        <div class="mb-3">
+        <div class="form-group mb-3">
             <label class="form-label">Список адресов</label>
-            @forelse ($user->addresses as $address)
-                <br>
-                <label for="main_address{{$address->id}}">{{$address->address}}</label>
-                <input @if ($address->main) checked @endif id="main_address{{$address->id}}" name='main_address'
-                       type="radio" value="{{$address->id}}">
-            @empty
-                <em>Ку-ку)</em>
-            @endforelse
+
+                <ol>
+                    @forelse ($user->addresses as $address)
+                    <li>
+                        <label @if ($address->main) class="form-check-label h5" @endif for="main_address{{$address->id}}">{{$address->address}}</label>
+                        <input class="form-check-input" @if ($address->main) checked @endif id="main_address{{$address->id}}" name='main_address'
+                               type="radio" value="{{$address->id}}">
+                    </li>
+                    @empty
+                        <em>Нет адресов</em>
+                    @endforelse
+                </ol>
+
+
         </div>
-        <div class="mb-3">
+        <div class="form-group mb-3">
             <label class="form-label">Новый адрес</label>
-            <input name="new_address" class="form-control">
+            <input name="new_address" class="form-control" placeholder="Введите новый адрес">
             {{--            @if(!$user->addresses)--}}
-            <input name="main_address" type="checkbox">
+            <div class="form-check my-3">
+                <lable class="form-check-label" for="main_address">Указать основным</lable>
+                <input class="form-check-input" name="main_address" type="checkbox">
+            </div>
             {{--            @endif--}}
         </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        </div>
     </form>
     <div>
 
 
         {{--                    <td>{{ $order->id }}</td>--}}
 
-
+<h2 class="my-3">История покупок</h2>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Prod</th>
-                <th scope="col">date</th>
-                <th scope="col">date</th>
+                <th scope="col">Заказ и количество</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Действия</th>
             </tr>
             </thead>
             <tbody>
@@ -120,7 +136,7 @@
                         <form method="post" action="{{ route('repeatToCart') }}" enctype="multipart/form-data">
                             <input type="text" hidden name="id" value="{{ $id }}">
                             @csrf
-                            <button type="submit">Повторить</button>
+                            <button class="btn btn-primary" type="submit">Повторить</button>
                         </form>
                     </td>
                 </tr>

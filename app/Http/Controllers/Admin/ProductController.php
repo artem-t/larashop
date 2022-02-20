@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -107,6 +108,13 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        if ($product->orders->count()){
+            return back()->with('error', 'Продукт есть в заказах');
+
+        }
+        Storage::delete($product->picture);
+        $product->delete();
+        return back()->with('success', 'Продукт удален');
     }
 }

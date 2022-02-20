@@ -15,35 +15,37 @@
     <div>
         <ul class="nav">
             @foreach($categories as $category)
-{{--                @dd($category)--}}
+                {{--                @dd($category)--}}
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('categories.show', ['category' => $category->id]) }}">{{ $category->name }}</a>
+                    <a class="nav-link active"
+                       href="{{ route('categories.show', ['category' => $category->id]) }}">{{ $category->name }}</a>
                 </li>
             @endforeach
-
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
         </ul>
     </div>
-<div class="d-flex flex-wrap">
-    @foreach($products as $product)
-    <div class="card m-2" style="width: 18rem;">
-        <div class="p-3 h-50">
-            <img class="card-img-top h-100" src="{{asset('storage')}}/{{ $product->picture }}" alt="Card image cap">
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">{{ $product->name }}</h5>
-            <p class="card-text">{{ $product->description }}</p>
-            <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-primary">Редактировать</a>
-        </div>
-    </div>
+    <div class="d-flex row">
+        @foreach($products as $product)
+            <div class="card m-2" style="width: 18rem;">
+                <div class="p-3 h-50">
+                    <img class="card-img-top h-100" src="{{asset('storage')}}/{{ $product->picture }}"
+                         alt="Card image cap">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ $product->name }}</h5>
+                    <p class="card-text">{{ $product->description }}</p>
+                    <div class="d-flex">
+                        <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-primary">Редактировать</a>
+{{--                        <form class="mx-3 h-100" method="post"--}}
+{{--                              action="{{ route('products.destroy', ['product' => $product->id]) }}">--}}
+{{--                            @csrf--}}
+{{--                            @method('DELETE')--}}
+{{--                            <button class="btn btn-danger " type="submit"--}}
+{{--                                    onclick="return confirm('Подтвердить удаление')">Удалить--}}
+{{--                            </button>--}}
+{{--                        </form>--}}
+                    </div>
+                </div>
+            </div>
 
     @endforeach
     {{ $products->links() }}

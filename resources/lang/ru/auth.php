@@ -16,5 +16,15 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'Login' =>  'Войти',
+    'Password'  =>  'Пароль',
+    'Confirm Password'  => 'Повторить пароль',
+    'Remember Me'   =>  'Напомнить',
+    'Forgot Your Password?' =>  'Забыли пароль?',
+    'Reset Password'    =>  'Сбросить пароль',
+    'Register'  =>  'Регистрация',
+    'Name'  =>  'Имя',
+
+
 
 ];

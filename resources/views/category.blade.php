@@ -21,9 +21,9 @@
 
 @section('content')
 <div class="container">
-    <div class="d-flex">
+    <div class="row d-flex">
         @foreach ($products as $product)
-        <div class="col-3">
+        <div class="col">
             <div class="card mb-4" style="width: 18rem;">
                 <div class="p-3"><img style="height: 10rem" src="{{ asset('storage') }}/{{$product->picture}}" class="card-img-top"
                         alt="{{$product->name}}"></div>

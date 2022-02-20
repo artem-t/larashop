@@ -43,7 +43,7 @@ class ProfileController extends Controller
         $picture = $input['picture'] ?? null;
         $newAddress = $input['new_address'];
         $user = User::find($userId);
-
+//dd($input);
         request()->validate([
             'name' => 'required',
             'email' => "email|required|unique:users,email,{$user->id}",
@@ -66,7 +66,7 @@ class ProfileController extends Controller
             'main' => 1
         ]);
 
-        if ($newAddress) {
+        if ($newAddress && $input['main_address'] == 'on') {
             Address::where('user_id', $user->id)->update([
                 'main' => 0
             ]);

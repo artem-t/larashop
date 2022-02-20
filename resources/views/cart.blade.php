@@ -70,25 +70,28 @@
                 </tr>
         </tbody>
     </table>
+    <div class="d-flex justify-content-end my-3">
+        <form method="post" action="{{route('cleanCart')}}">
+            @csrf
+            <button class="btn btn-danger" type="submit">Очистить</button>
+        </form>
+    </div>
 
     @if ($summ)
         <form method="post" action="{{ route('createOrder') }}">
             @csrf
-            <input placeholder="Имя" class="form-control mb-2" name='name' value="{{$user->name ?? ''}}">
-            <input placeholder="Почта" class="form-control mb-2" name='email' value="{{$user->email ?? ''}}">
-            <input placeholder="Адрес" class="form-control mb-2" name='address' value="{{$address}}">
+            <input placeholder="Имя" class="form-control mb-2" name='name' value="{{$user->name ?? old('name')}}">
+            <input placeholder="Почта" class="form-control mb-2" name='email' value="{{$user->email ?? old('email')}}">
+            <input placeholder="Адрес" class="form-control mb-2" name='address' value="{{ $address ?? old('address')}}">
 {{--            @guest--}}
-            <input id='register_confirmation' name='register_confirmation' type="checkbox">
+            <input  id='register_confirmation' name='register_confirmation' type="checkbox">
             <!-- не забудьте добавить оферту -->
             <label for="register_confirmation">Вы будете автоматически зарегистрированы</label>
 {{--            @endif--}}
             <br>
-            <button type="submit" class="btn btn-success">Оформить заказ</button>
+            <button type="submit" class="btn btn-success my-2">Оформить заказ</button>
         </form>
     @endif
 
-    <form method="post" action="{{route('cleanCart')}}">
-        @csrf
-        <button type="submit">Clean</button>
-    </form>
+
 @endsection

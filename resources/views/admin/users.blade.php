@@ -32,7 +32,7 @@
                 <td> <form method="post" action="{{ route('rmRole', ['id' => $role->id])  }}">
                         @csrf
                         <input type="text" hidden name="name" value="{{ $role->name }}">
-                        <button class="btn btn-link align-text-top" type="submit">Удалить</button>
+                        <button class="btn btn-outline-danger align-text-top" type="submit">Удалить</button>
                     </form></td>
             </tr>
             @empty
@@ -98,7 +98,7 @@
                                         @csrf
                                         <input type="text" hidden name="user_id" value="{{ $user->id }}">
                                         <input type="text" hidden name="role_id" value="{{ $role->id }}">
-                                        <button class="btn btn-link align-text-top" type="submit">Удалить</button>
+                                        <button class="btn btn-link red align-text-top" type="submit">Удалить</button>
                                     </form>
                                     </div>
 
