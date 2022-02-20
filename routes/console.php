@@ -17,6 +17,31 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
+Artisan::command('exportCategories', function (){
+    $categories = Category::get()->toArray();
+//    dd($categories);
+    $fileName = 'storage/app/public/public/export/' . date("m.d.y.H:i") . '.csv';
+//    dd($fileName);
+    $file = fopen($fileName, 'w+');
+    $columns =  [
+        'id',
+        'name',
+        'description',
+        'picture',
+        'created_at',
+        'updated_at',
+    ];
+    fputcsv($file, $columns, ';');
+    foreach ($categories as $category){
+        $category['name'] = iconv('utf-8', 'utf-8', $category['name']);
+        $category['description'] = iconv('utf-8', 'utf-8', $category['description']);
+        $category['picture'] = iconv('utf-8', 'utf-8', $category['picture']);
+        fputcsv($file, $category, ';');
+
+    }
+    fclose($file);
+});
+
 Artisan::command('orderTest',function () {
 
     $order = Order::first();
@@ -28,26 +53,28 @@ Artisan::command('orderTest',function () {
 });
 
 Artisan::command('importCategoriesFromFile', function () {
-    
-    $file = fopen('categories.csv', 'r');
 
-    $i = 0;
-    $insert = [];
-    while ($row = fgetcsv($file, 1000, ';')) {
-        if ($i++ == 0) {
-            $bom = pack('H*','EFBBBF');
-            $row = preg_replace("/^$bom/", '', $row);
-            $columns = $row;
-            continue;
-        }
-
-        $data = array_combine($columns, $row);
-        $data['created_at'] = date('Y-m-d H:i:s');
-        $data['updated_at'] = date('Y-m-d H:i:s');
-        $insert[] = $data;        
-    }
-
-    Category::insert($insert);
+//    $file = fopen('storage/app/public/public/import/categories.csv', 'r');
+//
+//    $i = 0;
+//    $insert = [];
+//    while ($row = fgetcsv($file, 1000, ';')) {
+//        if ($i++ == 0) {
+//            $bom = pack('H*','EFBBBF');
+//            $row = preg_replace("/^$bom/", '', $row);
+//            $columns = $row;
+//            continue;
+//        }
+//
+//        $data = array_combine($columns, $row);
+//        unset($data['id']);
+//        $data['created_at'] = date('Y-m-d H:i:s');
+//        $data['updated_at'] = date('Y-m-d H:i:s');
+//        $insert[] = $data;
+//    }
+//
+////    dd($data);
+//    Category::insert($insert);
 });
 
 Artisan::command('parseEkatalog', function () {
@@ -61,7 +88,7 @@ Artisan::command('parseEkatalog', function () {
 
     $xpath = new DomXPath($dom);
     $totalProductsString = $xpath->query("//span[@class='t-g-q']")[0]->nodeValue ?? false;
-    
+
     preg_match_all('/\d+/', $totalProductsString, $matches);
     $totalProducts = (int) $matches[0][0];
 
@@ -104,17 +131,17 @@ Artisan::command('parseEkatalog', function () {
 
         $dom = new DomDocument();
         @$dom->loadHTML($data);
-    
+
         $xpath = new DomXPath($dom);
         $divs = $xpath->query("//div[@class='model-short-div list-item--goods   ']");
 
         foreach ($divs as $div) {
             $a = $xpath->query("descendant::a[@class='model-short-title no-u']", $div);
             $name = $a[0]->nodeValue;
-    
+
             $price = 'Нет в наличии';
             $ranges = $xpath->query("descendant::div[@class='model-price-range']", $div);
-    
+
             if ($ranges->length == 1) {
                 foreach ($ranges[0]->childNodes as $child) {
                     if ($child->nodeName == 'a') {
@@ -122,7 +149,7 @@ Artisan::command('parseEkatalog', function () {
                     }
                 }
             }
-    
+
             $ranges = $xpath->query("descendant::div[@class='pr31 ib']", $div);
             if ($ranges->length == 1) {
                 $price = $ranges[0]->nodeValue;

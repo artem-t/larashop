@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ExportCategories;
+use App\Jobs\ImportCategories;
 use App\Models\Role;
 use App\Models\User;
 use Faker\Guesser\Name;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -35,6 +38,24 @@ class AdminController extends Controller
     {
         Auth::loginUsingId($id);
         return redirect()->route('adminUsers');
+    }
+
+    public function exportCategories()
+    {
+        ExportCategories::dispatch();
+
+        return back()->with('success', 'Экспорт категорий запущен');
+    }
+
+    public function importCategories()
+    {
+        request()->validate([
+            'import-file'   =>  ':mimes:csv,txt',
+        ]);
+
+        request()->file('import-file')->storeAs('public/import/', 'categories.csv');
+        ImportCategories::dispatch();
+        return back()->with('success', 'Импорт запущен');
     }
 
     public function addRole ()

@@ -28,6 +28,8 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::resource('/categories', 'App\Http\Controllers\Admin\CategoryController');
     Route::resource('/products', 'App\Http\Controllers\Admin\ProductController');
     Route::get('/enterAsUser/{id}', [AdminController::class, 'enterAsUser'])->name('enterAsUser');
+    Route::post('/export-categories', [AdminController::class, 'exportCategories'])->name('exportCategories');
+    Route::post('/import-categories', [AdminController::class, 'importCategories'])->name('importCategories');
     Route::prefix('roles')->group(function() {
         Route::post('/add', [AdminController::class, 'addRole'])->name('addRole');
         Route::post('/rmRole/{id}', [AdminController::class, 'rmRole'])->name('rmRole');

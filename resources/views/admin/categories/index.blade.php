@@ -48,6 +48,44 @@
             @endforeach
             </tbody>
         </table>
+        <div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
+        <form method="post" action="{{ route('importCategories') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group">
+            <input class="form-control-file" type="file" name="import-file">
+            <button class="btn btn-outline-primary my-3">Загрузить</button>
+            </div>
+        </form>
+        <form method="post" action="{{ route('exportCategories') }}">
+            @csrf
+            <button type="submit" class="btn btn-outline-primary my-3">Выгрузить</button>
+        </form>
+
+        <div>
+            <ul class="list-group">
+                @foreach($files as $file)
+                    <li class="list-group-item d-flex align-items-center">
+                        <div style="height: 25px">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-100 w-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                        </div>
+                        <a class="btn btn-link" href="{{ asset('storage') }}/{{$file}}">{{basename($file)}}</a>
+                    </li>
+                @endforeach
+            </ul>
+
+        </div>
         {{ $categories->links() }}
     </div>
 @endsection

@@ -18,8 +18,10 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::orderBy('created_at', 'asc')->paginate(20);
+        $dir =  '/public/export/';
+        $files = Storage::files($dir);
 
-        return view('admin.categories.index', compact('categories'));
+        return view('admin.categories.index', compact('categories', 'files'));
     }
 
     /**
