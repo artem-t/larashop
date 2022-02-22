@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(4);
+        $categories = Category::paginate();
         return view('home', compact('categories'));
     }
 

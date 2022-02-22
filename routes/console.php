@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -75,6 +76,36 @@ Artisan::command('importCategoriesFromFile', function () {
 //
 ////    dd($data);
 //    Category::insert($insert);
+});
+
+Artisan::command('ExportProducts', function () {
+    if (request('category_id')){
+        $products = Product::where('category_id', request('category_id'))->get()->toArray();
+
+    }else{
+        $products = Product::get()->toArray();
+    }
+//dd($products);
+    $fileName = 'storage/app/public/public/export/products/' . date("m.d.y.H:i") . '.csv';
+//    dd($fileName);
+    $file = fopen($fileName, 'w');
+    $columns =  [
+        'id',
+        'name',
+        'description',
+        'picture',
+        'created_at',
+        'updated_at',
+    ];
+    fputcsv($file, $columns, ';');
+    foreach ($products as $product){
+        $products['name'] = iconv('utf-8', 'utf-8', $product['name']);
+        $products['description'] = iconv('utf-8', 'utf-8', $product['description']);
+        $products['picture'] = iconv('utf-8', 'utf-8', $product['picture']);
+        fputcsv($file, $product, ';');
+
+    }
+    fclose($file);
 });
 
 Artisan::command('parseEkatalog', function () {

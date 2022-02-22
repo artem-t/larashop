@@ -14,7 +14,11 @@
             @endforeach
         </div>
     @endif
+    <user-component>
 
+    </user-component>
+
+    <h1>PHP</h1>
     <h1>Список ролей</h1>
 
     <table class="table table-bordered">

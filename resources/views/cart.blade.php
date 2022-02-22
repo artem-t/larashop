@@ -14,7 +14,7 @@
 @section('content')
     <table class="table table-bordered">
         <thead>
-            <tr>
+            <tr class="">
                 <th>#</th>
                 <th>Наименование</th>
                 <th>Цена</th>

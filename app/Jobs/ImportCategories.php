@@ -33,7 +33,7 @@ class ImportCategories implements ShouldQueue
     {
         $fileName = base_path() . '/storage/app/public/public/import/categories.csv';
 //        dd($fileName);
-        $file = fopen( $fileName, 'r+');
+        $file = fopen( $fileName, 'r');
 
         $i = 0;
         $insert = [];

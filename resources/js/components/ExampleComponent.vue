@@ -1,23 +1,41 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
+    <div>
+        <table class="table table-bordered">
+            <tbody>
+            <tr v-for="user in users" :key="user.id">
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+            </tr>
+            </tbody>
 
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
-            </div>
-        </div>
+        </table>
+        <button @click="getData" class="btn btn-success">Получить</button>
     </div>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
+export default {
+    data() {
+        return {
+            users: []
         }
+
+    },
+
+    methods: {
+        getData() {
+            axios.get('/api/test')
+                .then(response => {
+                    this.users = response.data
+                    console.log(response.data)
+                })
+        }
+    },
+    mounted() {
+
+        console.log('Component mounted.')
     }
+}
 </script>

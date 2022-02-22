@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -18,7 +18,9 @@ class ProductController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = Product::with('category')->orderBy('name', 'asc')->paginate();
+        $products = Product::with('category')->orderBy('name', 'asc')->paginate(9);
+//        $dir =  '/public/export/products';
+//        $files = Storage::files($dir);
         return view('admin.products.index', compact('products', 'categories'));
     }
 
@@ -111,8 +113,8 @@ class ProductController extends Controller
         $product = Product::find($id);
         if ($product->orders->count()){
             return back()->with('error', 'Продукт есть в заказах');
-
         }
+
         Storage::delete($product->picture);
         $product->delete();
         return back()->with('success', 'Продукт удален');

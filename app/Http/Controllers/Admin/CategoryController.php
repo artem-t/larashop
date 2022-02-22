@@ -17,8 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('created_at', 'asc')->paginate(20);
-        $dir =  '/public/export/';
+        $categories = Category::orderBy('created_at', 'asc')->paginate(10);
+        $dir =  '/public/export/categories';
         $files = Storage::files($dir);
 
         return view('admin.categories.index', compact('categories', 'files'));
@@ -95,12 +95,10 @@ class CategoryController extends Controller
         $data = $request->all();
         if ($request->hasFile('picture')) {
             $data['picture'] = $request->file('picture')->store('public/category');
-
         }
-//        $data['picture'] = $request->file('picture')->store('public/category');
+        //        $data['picture'] = $request->file('picture')->store('public/category');
         $category->update($data);
         return redirect()->route('categories.index')->with('success', 'Категория обновлена');
-
     }
 
     /**
@@ -112,8 +110,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-        if ($category->products->count()){
-             return back()->with('error', 'У категории есть продукты');
+        if ($category->products->count()) {
+            return back()->with('error', 'У категории есть продукты');
         }
         Storage::delete($category->picture);
         $category->delete();
