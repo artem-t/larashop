@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('created_at', 'asc')->paginate(10);
+        $categories = Category::orderBy('created_at', 'asc')->paginate();
         $dir =  '/public/export/categories';
         $files = Storage::files($dir);
 

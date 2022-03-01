@@ -12,18 +12,18 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    public function profile (User $user)
+    public function profile(User $user)
     {
-//        dd($user->id);
+        //        dd($user->id);
         $orders = Order::with('products')->where('user_id', $user->id)->get();
-//        dd($orders);
-//foreach ($orders as $order){
-//    foreach ($order->products as $product){
-//        $products = $product->id;
-//    }
-//
-//}
-//dd($products);
+        //        dd($orders);
+        //foreach ($orders as $order){
+        //    foreach ($order->products as $product){
+        //        $products = $product->id;
+        //    }
+        //
+        //}
+        //dd($products);
 
         if (!Auth::user())
             return redirect()->route('home');
@@ -33,7 +33,7 @@ class ProfileController extends Controller
         return redirect()->route('home');
     }
 
-    public function save (Request $request)
+    public function save(Request $request)
     {
         $input = request()->all();
 
@@ -41,9 +41,9 @@ class ProfileController extends Controller
         $email = $input['email'];
         $userId = $input['userId'];
         $picture = $input['picture'] ?? null;
-        $newAddress = $input['new_address'];
+        $newAddress = $input['new_address'] ?? null;
         $user = User::find($userId);
-//dd($input);
+        //dd($input);
         request()->validate([
             'name' => 'required',
             'email' => "email|required|unique:users,email,{$user->id}",
@@ -52,7 +52,7 @@ class ProfileController extends Controller
             'password' => 'confirmed|min:8|nullable'
         ]);
 
-        if ($request['password']){
+        if ($request['password']) {
             $user->password = Hash::make($input['password']);
             $user->save();
         }

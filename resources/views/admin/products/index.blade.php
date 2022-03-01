@@ -30,9 +30,9 @@
                     <img class="card-img-top h-100" src="{{asset('storage')}}/{{ $product->picture }}"
                          alt="Card image cap">
                 </div>
-                <div class="card-body">
+                <div class="card-body h-100 d-flex flex-column justify-content-between">
                     <h5 class="card-title">{{ $product->name }}</h5>
-                    <p class="card-text">{{ $product->description }}</p>
+                    <p class="card-text">{{ mb_strimwidth($product->description, 0, 100, ' ...' ) }}</p>
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('products.edit', ['product' => $product->id]) }}" class="btn btn-primary">Редактировать</a>
                         <form method="post" action="{{ route('products.destroy', ['product' => $product->id]) }}">
@@ -49,13 +49,13 @@
 {{--            @dd($exportCategories)--}}
             <form method="post" action="{{ route('exportProducts') }}" enctype="multipart/form-data">
                 @csrf
-                <select name="category_id" id="">
+                {{-- <select name="category_id" id="">
 
                     @foreach($exportCategories as $k => $v)
                         <option value="{{ $k }}">{{ $v }}</option>
                     @endforeach
 
-                </select>
+                </select> --}}
                 <button type="submit" class="btn btn-outline-primary my-3">Выгрузить</button>
             </form>
             <div>
@@ -73,6 +73,6 @@
                 </ul>
 
             </div>
-    {{ $products->links() }}
+    {{ $products->links('vendor.pagination.bootstrap-4') }}
 
 @endsection

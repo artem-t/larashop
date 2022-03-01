@@ -18,7 +18,7 @@
                         {{$category->name}}
                     </h5>
                     <p class="card-text">
-                        {{ $category->description }}
+                        {{ mb_strimwidth($category->description, 0, 100, ' ...' )}}
                     </p>
                     <a href="{{ route('category', $category->id) }}" class="btn btn-primary">Перейти</a>
                 </div>

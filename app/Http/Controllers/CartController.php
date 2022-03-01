@@ -81,7 +81,6 @@ class CartController extends Controller
             for ($i = 1; $i <= $v; $i++) {
                 if (isset($cart[$k])) {
                     $cart[$k] = ++$cart[$k];
-
                 } else {
                     $cart[$k] = 1;
                 }
@@ -102,12 +101,21 @@ class CartController extends Controller
 
     public function createOrder()
     {
-        request()->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'address' => 'required',
-            'register_confirmation' => 'accepted'
-        ]);
+        if (!Auth::check()) {
+            request()->validate([
+                'name' => 'required',
+                'email' => 'required|email',
+                'address' => 'required',
+                'register_confirmation' => 'accepted'
+            ]);
+        } else{
+            request()->validate([
+                'name' => 'required',
+                'email' => 'required|email',
+                'address' => 'required',
+            ]);
+        }
+
 
         DB::transaction(function () {
             $user = Auth::user();
@@ -144,15 +152,15 @@ class CartController extends Controller
                 ]);
             }
 
-//                $data = [
-//                    'products' => $order->products,
-//                    'name' => $user->name,
-//                    'password' => $password
-//                ];
-//                Mail::to($user->email)->send(new OrderCreated($data));
+            //                $data = [
+            //                    'products' => $order->products,
+            //                    'name' => $user->name,
+            //                    'password' => $password
+            //                ];
+            //                Mail::to($user->email)->send(new OrderCreated($data));
         });
 
         session()->forget('cart');
-        return back();
+        return back()->with('success', 'Заказ оформлен');
     }
 }

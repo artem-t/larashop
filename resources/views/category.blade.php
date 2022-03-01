@@ -24,17 +24,17 @@
     <div class="row d-flex">
         @foreach ($products as $product)
         <div class="col">
-            <div class="card mb-4" style="width: 18rem;">
+            <div class="card mb-4 h-100" style="width: 18rem;">
                 <div class="p-3"><img style="height: 10rem" src="{{ asset('storage') }}/{{$product->picture}}" class="card-img-top"
                         alt="{{$product->name}}"></div>
-                <div class="card-body">
+                <div class="card-body d-flex flex-column justify-content-between ">
                     <h5 class="card-title">
                         {{$product->name}}
                     </h5>
                     <p class="card-text">
-                        {{ $product->description }}
+                        {{ mb_strimwidth($product->description, 0, 70, ' ...') }}
                     </p>
-                    <div class="product-price">
+                    <div class="product-price my-3">
                         {{ $product->price }} руб.
                     </div>
                     <div class="product-buttons">

@@ -29,7 +29,7 @@
                     <th scope="row">{{ $category->id}}</th>
                     {{--                <td ><img style="height: 30px" src="{{asset('storage')}}/{{ $category->picture }}" alt=""></td>--}}
                     <td>{{ $category->name }}</td>
-                    <td>{{ $category->description }}</td>
+                    <td>{{ mb_strimwidth($category->description, 0, 100, ' ...' ) }}</td>
                     <td class="d-flex">
                         <a class="btn btn-outline-primary btn-sm"
                            href="{{ route('categories.edit', ['category' => $category->id]) }}">
@@ -86,7 +86,7 @@
             </ul>
 
         </div>
-        {{ $categories->links() }}
+        {{ $categories->links('vendor.pagination.bootstrap-4') }}
     </div>
 @endsection
 

@@ -12,6 +12,17 @@
 @endsection
 
 @section('content')
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <table class="table table-bordered">
         <thead>
             <tr class="">
@@ -83,11 +94,12 @@
             <input placeholder="Имя" class="form-control mb-2" name='name' value="{{$user->name ?? old('name')}}">
             <input placeholder="Почта" class="form-control mb-2" name='email' value="{{$user->email ?? old('email')}}">
             <input placeholder="Адрес" class="form-control mb-2" name='address' value="{{ $address ?? old('address')}}">
-{{--            @guest--}}
+
+           @guest
             <input  id='register_confirmation' name='register_confirmation' type="checkbox">
             <!-- не забудьте добавить оферту -->
             <label for="register_confirmation">Вы будете автоматически зарегистрированы</label>
-{{--            @endif--}}
+           @endif
             <br>
             <button type="submit" class="btn btn-success my-2">Оформить заказ</button>
         </form>
